@@ -1,0 +1,204 @@
+.camcorder-widget-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(12, 12, 14, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 12px;
+  width: 190px;
+  font-family: var(--font-mono);
+  color: var(--color-green);
+  z-index: 900;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.cam-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 6px;
+}
+
+.cam-rec-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+  color: var(--color-red);
+}
+
+.cam-rec-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-red);
+  border-radius: 50%;
+}
+
+.blinking {
+  animation: blink 1s step-start infinite;
+}
+
+.cam-battery {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-text-primary);
+}
+
+.battery-icon {
+  width: 18px;
+  height: 9px;
+  border: 1px solid var(--color-text-primary);
+  padding: 1px;
+  position: relative;
+}
+
+.battery-icon::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 2px;
+  width: 2px;
+  height: 3px;
+  background: var(--color-text-primary);
+}
+
+.battery-fill {
+  height: 100%;
+  background: var(--color-green);
+}
+
+/* Stats Display */
+.cam-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cam-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+}
+
+.stat-val {
+  color: var(--color-text-primary);
+}
+
+.audio-meter {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 14px;
+  width: 80px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.audio-bar {
+  flex: 1;
+  background: var(--color-green);
+  min-height: 1px;
+  transition: height 0.1s ease;
+}
+
+.cam-diagnostics {
+  font-size: 0.6rem;
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-top: 6px;
+}
+
+/* Control Buttons */
+.cam-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 8px;
+}
+
+.cam-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  padding: 6px 0;
+  cursor: pointer;
+  border-radius: 2px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.cam-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cam-btn.active {
+  background: var(--color-green);
+  color: #000;
+  border-color: var(--color-green);
+  font-weight: bold;
+}
+
+/* Viewfinder Global HUD Brackets */
+.viewfinder-global-frame {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  border: 1px solid rgba(255,255,255,0.03);
+  pointer-events: none;
+  z-index: 700;
+}
+
+.corner-bracket {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(255, 255, 255, 0.08); /* Very subtle — atmospheric only */
+  border-style: solid;
+}
+
+.corner-bracket.top-left { top: 0; left: 0; border-width: 2px 0 0 2px; }
+.corner-bracket.top-right { top: 0; right: 0; border-width: 2px 2px 0 0; }
+.corner-bracket.bottom-left { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+.corner-bracket.bottom-right { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+
+.crosshair-center {
+  display: none; /* Removed — too distracting */
+}
+
+/* Mobile — hide camcorder widget, let dock nav take over */
+@media (max-width: 768px) {
+  .camcorder-widget-container {
+    display: none;
+  }
+  .viewfinder-global-frame {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+  .corner-bracket {
+    width: 14px;
+    height: 14px;
+  }
+}

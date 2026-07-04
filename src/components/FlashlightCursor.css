@@ -1,0 +1,41 @@
+.flashlight-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 850;
+  transition: background 0.05s ease-out;
+}
+
+.flashlight-stats {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--color-green);
+  opacity: 0.6;
+  text-shadow: 0 0 5px rgba(0, 255, 102, 0.4);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.stat-lock {
+  color: var(--color-red);
+  font-weight: bold;
+}
+
+/* Hide cursor stats on mobile devices */
+@media (max-width: 600px) {
+  .flashlight-stats {
+    display: none;
+  }
+  .flashlight-overlay {
+    z-index: 850;
+  }
+}

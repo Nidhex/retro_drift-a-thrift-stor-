@@ -1,0 +1,562 @@
+/* retro_drift // CORE STYLING SYSTEM — POLISHED */
+
+/* =============================================
+   DESIGN TOKENS
+   ============================================= */
+:root {
+  --color-bg: #0c0c0e;
+  --color-surface: #111114;
+  --color-text-primary: #f5f3ef;
+  --color-text-muted: #7a7a80;
+  --color-text-faint: #3a3a40;
+  --color-red: #ff3b30;
+  --color-green: #00ff66;
+  --color-cyan: #00f0ff;
+  --color-cream: #eae5da;
+  --color-card-bg: #151518;
+
+  --font-accent: 'Syne', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-heading: 'Archivo Black', sans-serif;
+
+  /* Fluid type scale using clamp(min, preferred, max) */
+  --text-xs:   clamp(0.65rem, 1.2vw, 0.75rem);
+  --text-sm:   clamp(0.8rem,  1.5vw, 0.95rem);
+  --text-base: clamp(0.95rem, 1.8vw, 1.1rem);
+  --text-lg:   clamp(1.1rem,  2vw,   1.35rem);
+  --text-xl:   clamp(1.4rem,  3vw,   1.8rem);
+  --text-2xl:  clamp(2rem,    5vw,   3rem);
+  --text-3xl:  clamp(3rem,    8vw,   5.5rem);
+  --text-hero: clamp(3.5rem, 10vw,   7rem);
+
+  /* Spacing scale */
+  --space-xs:  clamp(6px,  1vw,  10px);
+  --space-sm:  clamp(12px, 2vw,  20px);
+  --space-md:  clamp(24px, 4vw,  40px);
+  --space-lg:  clamp(40px, 6vw,  80px);
+  --space-xl:  clamp(60px, 8vw, 120px);
+
+  /* Easing curves */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+}
+
+/* =============================================
+   RESET
+   ============================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+  font-size: var(--text-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #08080a; }
+::-webkit-scrollbar-thumb {
+  background: #2a2a30;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-cream); }
+
+/* Selection */
+::selection { background: var(--color-green); color: #000; }
+::-moz-selection { background: var(--color-green); color: #000; }
+
+/* =============================================
+   ROOT CONTAINER
+   ============================================= */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* =============================================
+   FILM GRAIN OVERLAY — SUBTLE
+   Film grain is decorative texture, not a show.
+   Slow animation, low opacity, GPU layer.
+   ============================================= */
+.noise-overlay {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background: transparent url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E') repeat;
+  opacity: 0.045;          /* ↓ was 0.08 — much less intrusive */
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  animation: noise-drift 0.5s steps(2) infinite; /* ↓ was 0.15s — calmer */
+}
+
+@keyframes noise-drift {
+  0%   { transform: translate3d(0, 0, 0); }
+  50%  { transform: translate3d(-1%, 1%, 0); }
+  100% { transform: translate3d(1%, -1%, 0); }
+}
+
+/* =============================================
+   SCANLINE OVERLAY — REFINED
+   Lighter, more tasteful. Atmosphere not wall.
+   ============================================= */
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Single slow-moving highlight raster bar */
+.scanline-line {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.025) 50%,
+    transparent 100%
+  );
+  height: 40%;
+  pointer-events: none;
+  z-index: 9997;
+  will-change: transform;
+  animation: scanline-move 12s linear infinite; /* ↓ was 8s — slower, less dizzying */
+}
+
+@keyframes scanline-move {
+  0%   { transform: translateY(-100vh); }
+  100% { transform: translateY(200vh); }
+}
+
+/* CRT VIGNETTE */
+.crt-vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  pointer-events: none;
+  z-index: 9996;
+}
+
+/* =============================================
+   MARQUEE TICKER
+   ============================================= */
+.ticker-container {
+  overflow: hidden;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 10px 0;
+  display: flex;
+  backdrop-filter: blur(4px);
+  touch-action: pan-x;
+}
+
+.ticker-wrap {
+  display: inline-block;
+  will-change: transform;
+  animation: marquee 25s linear infinite;
+}
+
+.ticker-text {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 3px;
+  color: var(--color-green);
+  text-transform: uppercase;
+  padding: 0 2rem;
+  display: inline-block;
+}
+
+@keyframes marquee {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+/* =============================================
+   DUCT TAPE LABEL
+   ============================================= */
+.duct-tape {
+  position: absolute;
+  background: var(--color-cream);
+  color: #111;
+  padding: 3px 14px;
+  font-family: var(--font-mono);
+  font-weight: bold;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.25);
+  z-index: 10;
+  border-left: 1px dashed rgba(0,0,0,0.2);
+  border-right: 1px dashed rgba(0,0,0,0.2);
+  letter-spacing: 0.5px;
+}
+
+.duct-tape-blue {
+  background: var(--color-cyan);
+  color: #000;
+  transform: rotate(2deg);
+}
+
+/* =============================================
+   SCRAPBOOK STICKER
+   ============================================= */
+.scrapbook-sticker {
+  font-family: var(--font-accent);
+  background: var(--color-red);
+  color: #fff;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  text-align: center;
+  transform: rotate(12deg);
+  position: absolute;
+  z-index: 12;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.4);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+}
+
+/* =============================================
+   POLAROID CARD — REFINED
+   Products are the hero. Cards support them.
+   ============================================= */
+.polaroid-card {
+  background: #f7f5f0;
+  padding: 10px 10px 28px 10px;
+  color: #1a1a1a;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.3),
+    0 12px 30px rgba(0,0,0,0.4);
+  transition:
+    transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.polaroid-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
+  background: #e0ddd6;
+  overflow: hidden;
+}
+
+.polaroid-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.05) brightness(0.97) saturate(1.05);
+  transition: transform 0.6s var(--ease-out-expo);
+  will-change: transform;
+}
+
+/* Refined hover — smooth zoom, no chaotic glitch */
+.polaroid-card-wrapper:hover .polaroid-image {
+  transform: scale(1.05);
+}
+
+/* Subtle VHS horizontal bar — appears ONCE on hover, then stays still */
+.polaroid-image-container::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0, 240, 255, 0.35),
+    rgba(255, 59, 48, 0.35),
+    transparent
+  );
+  opacity: 0;
+  top: 30%;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.polaroid-card-wrapper:hover .polaroid-image-container::after {
+  opacity: 1;
+}
+
+/* Card lift — refined, single movement */
+.polaroid-card-wrapper {
+  position: relative;
+  width: 100%;
+  transition: transform 0.4s var(--ease-out-expo);
+  will-change: transform;
+}
+
+.polaroid-card-wrapper:hover:not(.item-sold-out) {
+  transform: translateY(-8px) rotate(0.5deg) !important;
+  z-index: 20;
+}
+
+.polaroid-details {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.polaroid-title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--text-base);
+  text-transform: uppercase;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.polaroid-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: #555;
+}
+
+.polaroid-price {
+  background: #111;
+  color: var(--color-green);
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* =============================================
+   BUTTONS — CYBER STYLE
+   ============================================= */
+.btn-cyber {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 12px 24px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  display: inline-block;
+  text-align: center;
+  line-height: 1;
+}
+
+.btn-cyber:hover {
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+  border-color: var(--color-text-primary);
+}
+
+.btn-cyber-red {
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+.btn-cyber-red:hover {
+  background: var(--color-red);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255,59,48,0.3);
+}
+
+.btn-cyber-green {
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+.btn-cyber-green:hover {
+  background: var(--color-green);
+  color: #000;
+  box-shadow: 0 0 20px rgba(0,255,102,0.3);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* =============================================
+   GLITCH TEXT — INTENTIONAL, NOT CONSTANT
+   Only fires on heading hover or easter egg.
+   ============================================= */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+/* No pseudo-elements by default — clean render */
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Only activate on hover — intentional moment */
+.glitch-text:hover::before {
+  left: 2px;
+  text-shadow: -1px 0 var(--color-cyan);
+  opacity: 1;
+  animation: glitch-clip-1 0.35s steps(4) forwards;
+}
+
+.glitch-text:hover::after {
+  left: -2px;
+  text-shadow: -1px 0 var(--color-red);
+  opacity: 1;
+  animation: glitch-clip-2 0.35s steps(4) forwards;
+}
+
+@keyframes glitch-clip-1 {
+  0%   { clip-path: inset(20% 0 60% 0); transform: translate(2px, 0); }
+  25%  { clip-path: inset(60% 0 10% 0); transform: translate(-2px, 0); }
+  50%  { clip-path: inset(40% 0 30% 0); transform: translate(1px, 0); }
+  75%  { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 0); }
+  100% { clip-path: inset(0 0 100% 0);  opacity: 0; }
+}
+
+@keyframes glitch-clip-2 {
+  0%   { clip-path: inset(60% 0 20% 0); transform: translate(-2px, 0); }
+  25%  { clip-path: inset(10% 0 50% 0); transform: translate(2px, 0); }
+  50%  { clip-path: inset(75% 0 5%  0); transform: translate(-1px, 0); }
+  75%  { clip-path: inset(30% 0 40% 0); transform: translate(1px, 0); }
+  100% { clip-path: inset(0 0 100% 0);  opacity: 0; }
+}
+
+/* =============================================
+   GLOBAL KEYFRAMES
+   ============================================= */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
+   HEADER NAV META STAT
+   ============================================= */
+.nav-mono-stat {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-green);
+  letter-spacing: 1px;
+  opacity: 0.7;
+}
+
+/* =============================================
+   GPU COMPOSITING HINTS
+   Critical for smooth 60fps on mobile
+   ============================================= */
+.polaroid-card-wrapper,
+.magazine-clipping,
+.editorial-polaroid,
+.stacked-photo-card,
+.camcorder-widget-container,
+.audio-deck-widget,
+.ticker-wrap,
+.noise-overlay,
+.scanline-line {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* =============================================
+   RIPPED PAPER DIVIDER
+   ============================================= */
+.ripped-divider {
+  width: 100%;
+  height: 32px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 32'%3E%3Cpath d='M0 16 Q72 4 144 16 Q216 28 288 14 Q360 2 432 18 Q504 30 576 13 Q648 0 720 16 Q792 30 864 14 Q936 0 1008 18 Q1080 30 1152 13 Q1224 0 1296 16 Q1368 30 1440 16 L1440 32 L0 32 Z' fill='%230c0c0e'/%3E%3C/svg%3E") no-repeat center bottom;
+  background-size: 100% 100%;
+  pointer-events: none;
+  margin-top: -1px;
+}
+
+/* =============================================
+   MOBILE TOUCH UTILITIES
+   ============================================= */
+@media (hover: none) {
+  /* On touch devices, disable hover-only effects for performance */
+  .polaroid-card-wrapper:hover .polaroid-image {
+    transform: none;
+  }
+  .polaroid-card-wrapper:hover:not(.item-sold-out) {
+    transform: translateY(-4px) !important;
+  }
+}

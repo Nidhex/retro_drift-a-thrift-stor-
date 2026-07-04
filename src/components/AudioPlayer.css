@@ -1,0 +1,141 @@
+.audio-deck-widget {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background: #111113;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 8px 12px;
+  width: 220px;
+  z-index: 900;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+.deck-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tape-window {
+  display: flex;
+  align-items: center;
+  background: #060608;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  padding: 4px 8px;
+  flex: 1;
+  justify-content: space-between;
+  gap: 6px;
+  position: relative;
+}
+
+.tape-reel {
+  width: 28px;
+  height: 28px;
+}
+
+.reels-spinning {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.tape-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.tape-label-text {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--color-text-primary);
+  letter-spacing: 0.5px;
+}
+
+.tape-ambient-alert {
+  font-family: var(--font-mono);
+  font-size: 0.45rem;
+  color: var(--color-green);
+  animation: blink 1.2s infinite;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+}
+
+.tape-meter {
+  width: 40px;
+  height: 4px;
+  background: #222;
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tape-meter-needle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 4px;
+  background: var(--color-green);
+  transition: transform 0.15s ease;
+}
+
+.needle-active {
+  animation: jitter-needle 0.2s infinite alternate;
+}
+
+@keyframes jitter-needle {
+  0% { transform: translateX(5px); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(12px); }
+}
+
+/* Play/Pause Button */
+.deck-play-btn {
+  background: var(--color-cream);
+  color: #111;
+  border: none;
+  border-radius: 2px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.deck-play-btn:hover {
+  background: var(--color-green);
+  transform: scale(1.05);
+}
+
+.deck-play-btn:active {
+  transform: scale(0.95);
+}
+
+/* Mobile-First Layout Adjustment */
+@media (max-width: 600px) {
+  .audio-deck-widget {
+    bottom: 80px; /* Aligned with camcorder on mobile */
+    left: 12px;
+    width: 170px;
+    padding: 6px 8px;
+  }
+  
+  .tape-reel {
+    width: 22px;
+    height: 22px;
+  }
+
+  .tape-label-text {
+    font-size: 0.5rem;
+  }
+}

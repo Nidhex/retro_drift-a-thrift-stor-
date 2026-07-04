@@ -1,0 +1,384 @@
+.products-section-container {
+  padding: clamp(40px, 6vw, 80px) clamp(16px, 4vw, 40px);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Category Filter Tabs */
+.filter-tabs-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 2px solid rgba(255,255,255,0.08);
+  padding-bottom: 15px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+.filter-title {
+  font-family: var(--font-mono);
+  color: var(--color-red);
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 1rem;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  letter-spacing: 1px;
+}
+
+.filter-tab-btn:hover {
+  color: var(--color-text-primary);
+  transform: translateY(-2px);
+}
+
+.filter-tab-btn.active-tab {
+  color: var(--color-green);
+  text-shadow: 0 0 8px rgba(0,255,102,0.3);
+  font-weight: bold;
+}
+
+.secret-indicator-alert {
+  font-family: var(--font-mono);
+  color: var(--color-green);
+  font-size: 0.75rem;
+  background: rgba(0, 255, 102, 0.08);
+  border: 1px dashed var(--color-green);
+  padding: 4px 8px;
+  border-radius: 2px;
+  animation: blink 1.5s step-start infinite;
+  letter-spacing: 1.5px;
+}
+
+/* Polaroid Grid */
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: clamp(28px, 4vw, 48px);
+  justify-items: center;
+  padding-top: var(--space-sm);
+}
+
+.polaroid-card-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.polaroid-card-wrapper:hover:not(.item-sold-out) {
+  /* Handled by index.css — translateY + slight rotate */
+}
+
+.brand-tag {
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  color: #777;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.size-tag {
+  font-size: 0.75rem;
+  background: #eae5da;
+  color: #000;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-weight: 800;
+}
+
+.polaroid-action-row {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px dashed rgba(0,0,0,0.15);
+  padding-top: 10px;
+}
+
+.claim-btn {
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  border-radius: 2px;
+}
+
+/* Card details specs block */
+.polaroid-archive-logs {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #6a6a6a;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: rgba(0,0,0,0.02);
+  padding: 6px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  text-align: left;
+}
+
+.polaroid-archive-logs span:last-child {
+  grid-column: span 2;
+  border-top: 1px dashed rgba(0,0,0,0.04);
+  padding-top: 2px;
+}
+
+/* Polaroid Viewfinder Brackets overlay */
+.viewfinder-brackets {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.polaroid-card-wrapper:hover .viewfinder-brackets {
+  opacity: 0.95;
+}
+
+.bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: #ff3b30;
+  border-style: solid;
+}
+
+.br-top-left { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
+.br-top-right { top: 12px; right: 12px; border-width: 2px 2px 0 0; }
+.br-bottom-left { bottom: 12px; left: 12px; border-width: 0 0 2px 2px; }
+.br-bottom-right { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+
+.polaroid-grain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.15) 100%);
+  pointer-events: none;
+}
+
+/* SOLD OUT EXPERIENCES */
+.item-sold-out .polaroid-card {
+  filter: grayscale(0.85) brightness(0.65) contrast(0.95);
+  cursor: not-allowed;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.item-sold-out .polaroid-card-wrapper:hover {
+  transform: rotate(inherit) !important;
+}
+
+.sold-out-stamp {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  border: 4px double var(--color-red);
+  color: var(--color-red);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  padding: 6px 16px;
+  letter-spacing: 1px;
+  z-index: 100;
+  text-shadow: 0 0 8px rgba(255,59,48,0.4);
+  background: rgba(12, 12, 14, 0.9);
+  pointer-events: none;
+  animation: stamp-slam 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  white-space: nowrap;
+}
+
+@keyframes stamp-slam {
+  0% { transform: translate(-50%, -50%) rotate(-45deg) scale(3); opacity: 0; }
+  100% { transform: translate(-50%, -50%) rotate(-18deg) scale(1); opacity: 1; }
+}
+
+/* Fullscreen Shutter flash visual overlay */
+.fullscreen-shutter-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 12000;
+  pointer-events: none;
+  animation: flash-fade 0.25s ease-out forwards;
+}
+
+@keyframes flash-fade {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Booking Terminal Modal Overlay */
+.terminal-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(4px);
+  z-index: 11000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.terminal-window {
+  width: 100%;
+  max-width: 500px;
+  background: #09090b;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.8);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-header {
+  background: #18181b;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.term-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #10b981; }
+
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.terminal-close {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.terminal-close:hover {
+  color: #fff;
+}
+
+.terminal-body {
+  padding: 20px;
+  font-family: var(--font-mono);
+  color: var(--color-green);
+  font-size: 0.85rem;
+  min-height: 250px;
+  background: #040405;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.term-prompt {
+  color: var(--color-red);
+}
+
+.terminal-cursor {
+  display: inline-block;
+  animation: blink 0.8s step-start infinite;
+}
+
+.terminal-success-box {
+  border: 1px dashed var(--color-green);
+  padding: 15px;
+  background: rgba(0,255,102,0.02);
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fade-in 0.3s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.terminal-success-box h4 {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.claim-sub {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.terminal-done-btn {
+  font-size: 0.75rem;
+  padding: 8px 16px;
+  align-self: flex-start;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .polaroid-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .filter-tabs-wrapper {
+    margin-bottom: 24px;
+    gap: 12px;
+  }
+  .polaroid-card-wrapper {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .polaroid-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .polaroid-card {
+    padding: 6px 6px 22px;
+  }
+  .sold-out-stamp {
+    font-size: 0.9rem;
+    padding: 4px 10px;
+  }
+}

@@ -1,0 +1,186 @@
+.editorial-collage-container {
+  padding: clamp(24px, 4vw, 60px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 80px);
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.collage-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.collage-item {
+  position: relative;
+  width: 100%;
+}
+
+/* Big Magazine Clipping */
+.magazine-clipping {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+  background: #111;
+}
+
+.clipping-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.15) brightness(0.9) grayscale(0.2);
+  transition: transform 0.6s ease;
+}
+
+.magazine-clipping:hover .clipping-img {
+  transform: scale(1.05);
+}
+
+.clipping-overlay-text {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font-family: var(--font-heading);
+  line-height: 0.85;
+  color: #fff;
+  z-index: 5;
+  text-shadow: 0 0 15px rgba(0,0,0,0.8);
+}
+
+.clipping-overlay-text h2 {
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  letter-spacing: -3px;
+  color: #fff;
+}
+
+/* Tape and Sticker positions */
+.tape-overlap-top {
+  top: -12px;
+  left: 10%;
+  z-index: 10;
+}
+
+.sticker-overlap {
+  bottom: -15px;
+  right: -10px;
+  z-index: 10;
+}
+
+/* Right Column Polaroids & Manifesto */
+.col-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.editorial-polaroid {
+  background: #fdfdfd;
+  padding: 10px 10px 20px 10px;
+  width: 100%;
+  max-width: 250px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #1a1a1a;
+}
+
+.editorial-polaroid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  filter: sepia(0.15) contrast(1.1);
+}
+
+.polaroid-caption {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-align: center;
+  color: #555;
+  letter-spacing: 0.5px;
+}
+
+.polaroid-tilted-right {
+  transform: rotate(4deg);
+  align-self: flex-end;
+}
+
+.polaroid-tilted-left {
+  transform: rotate(-3deg);
+  align-self: flex-start;
+  margin-top: -20px;
+}
+
+/* Manifesto Box styling */
+.editorial-manifesto {
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  padding: 24px;
+  background: rgba(255,255,255,0.02);
+  position: relative;
+  margin-top: 15px;
+}
+
+.editorial-manifesto h3 {
+  font-family: var(--font-mono);
+  color: var(--color-red);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.editorial-manifesto p {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.manifesto-stamp {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  transform: rotate(-10deg);
+}
+
+/* Mobile responsive constraints */
+@media (max-width: 768px) {
+  .collage-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .col-main {
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  .col-sub {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .editorial-polaroid {
+    max-width: 200px;
+  }
+
+  .polaroid-tilted-left {
+    margin-top: 0;
+  }
+
+  .editorial-manifesto {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
